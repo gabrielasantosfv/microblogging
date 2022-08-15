@@ -12,7 +12,6 @@ class _TabHomePageState extends State<TabHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue[50],
       appBar: AppBar(title: const Text('Início')),
       body: ListView.separated(
         separatorBuilder: (context, index) => const Divider(),
@@ -31,6 +30,7 @@ class _TabHomePageState extends State<TabHomePage> {
                 'Lorem ipsum dolor sit amet consectetur adipiscing, elit ante sociosqu fames lectus efficitur per, diam molestie volutpat phasellus feugiat. Pellentesque augue sagittis mauris netus tempor sociosqu fusce adipiscing pulvinar senectus lectus cursus.',
             numberLikes: 67,
             numberComments: 15,
+            verified: false,
           );
         },
       ),
