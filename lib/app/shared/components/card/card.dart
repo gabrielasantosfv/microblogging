@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:microblogging/app/shared/components/icon/icon.dart';
 import 'package:microblogging/app/shared/components/icon/icon_button.dart';
 import 'package:microblogging/app/shared/components/text/text.dart';
 
@@ -13,10 +14,12 @@ class CardComponent extends StatelessWidget {
     required this.text,
     required this.numberLikes,
     required this.numberComments,
+    required this.verified,
   }) : super(key: key);
 
   final String image, name, date, text;
   final int numberLikes, numberComments;
+  final bool verified;
 
   @override
   Widget build(BuildContext context) {
@@ -37,10 +40,22 @@ class CardComponent extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    TextComponent(
-                      text: name,
-                      textAlign: TextAlign.left,
-                      fontWeight: FontWeight.bold,
+                    Row(
+                      children: [
+                        Flexible(
+                          child: TextComponent(
+                            text: name,
+                            textAlign: TextAlign.left,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        verified
+                            ? const Padding(
+                                padding: EdgeInsets.only(left: 5),
+                                child: IconComponent(icon: Icons.verified),
+                              )
+                            : Container()
+                      ],
                     ),
                     const SizedBox(height: 3),
                     TextComponent(
