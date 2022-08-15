@@ -7,6 +7,7 @@ class TextComponent extends StatelessWidget {
   final FontWeight fontWeight;
   final TextAlign textAlign;
   final String fontFamily;
+  final TextDecoration decoration;
 
   const TextComponent({
     Key? key,
@@ -16,6 +17,7 @@ class TextComponent extends StatelessWidget {
     this.fontWeight = FontWeight.normal,
     this.textAlign = TextAlign.center,
     this.fontFamily = 'Lato',
+    this.decoration = TextDecoration.none,
   }) : super(key: key);
 
   @override
@@ -27,6 +29,7 @@ class TextComponent extends StatelessWidget {
         fontWeight: fontWeight,
         color: color,
         fontFamily: fontFamily,
+        decoration: decoration,
       ),
       textAlign: textAlign,
     );
