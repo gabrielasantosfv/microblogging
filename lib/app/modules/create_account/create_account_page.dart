@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:microblogging/app/modules/create_account/create_account_controller.dart';
 import 'package:microblogging/app/shared/components/button/button.dart';
 import 'package:microblogging/app/shared/components/text/text.dart';
 import 'package:microblogging/app/shared/components/text/text_button.dart';
@@ -14,14 +16,7 @@ class CreateAccountPage extends StatefulWidget {
 
 class _CreateAccountPageState extends State<CreateAccountPage> {
   final _formKey = GlobalKey<FormState>();
-
-  final nameController = TextEditingController();
-  final loginController = TextEditingController();
-  final passwordController = TextEditingController();
-  final confirmPasswordController = TextEditingController();
-
-  bool viewPassword = false;
-  bool viewConfirmPassword = false;
+  final _createAccountController = CreateAccountController();
 
   @override
   Widget build(BuildContext context) {
@@ -65,68 +60,64 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
   }
 
   Widget form() {
-    return Form(
-      key: _formKey,
-      autovalidateMode: AutovalidateMode.onUserInteraction,
-      child: Column(
-        children: [
-          TextFieldWithPrefix(
-            controller: nameController,
-            //validator: validateText,
-            obscureText: false,
-            prefixIcon: Icons.person_outline,
-            hintText: 'Nome',
-          ),
-          const SizedBox(height: 20),
-          TextFieldWithPrefix(
-            controller: loginController,
-            //validator: validateEmail,
-            obscureText: false,
-            prefixIcon: Icons.email_outlined,
-            hintText: 'E-mail',
-            keyboardType: TextInputType.emailAddress,
-          ),
-          const SizedBox(height: 20),
-          TextFieldWithPrefixAndSuffix(
-            controller: passwordController,
-            //validator: validateText,
-            obscureText: !viewPassword,
-            prefixIcon: Icons.key_outlined,
-            suffixIcon: viewPassword ? Icons.visibility : Icons.visibility_off,
-            hintText: 'Senha',
-            onTapSuffixIcon: (() {
-              setState(() => viewPassword = !viewPassword);
-            }),
-          ),
-          const SizedBox(height: 20),
-          TextFieldWithPrefixAndSuffix(
-            controller: confirmPasswordController,
-            //validator: validateText,
-            obscureText: !viewConfirmPassword,
-            prefixIcon: Icons.key_outlined,
-            suffixIcon:
-                viewConfirmPassword ? Icons.visibility : Icons.visibility_off,
-            hintText: 'Confirmar senha',
-            onTapSuffixIcon: (() {
-              setState(() => viewConfirmPassword = !viewConfirmPassword);
-            }),
-          ),
-          const SizedBox(height: 20),
-          ButtonComponent(
-            text: 'Cadastrar',
-            inProgress: false,
-            onPressed: () {
-              if (_formKey.currentState!.validate()) {
-              } else {}
-            },
-          ),
-          const SizedBox(height: 10),
-          TextButtonComponent(
-            text: 'Voltar',
-            onPressed: () {},
-          ),
-        ],
-      ),
-    );
+    return Observer(builder: (_) {
+      return Form(
+        key: _formKey,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        child: Column(
+          children: [
+            TextFieldWithPrefix(
+              controller: _createAccountController.nameController,
+              obscureText: false,
+              prefixIcon: Icons.person_outline,
+              hintText: 'Nome',
+            ),
+            const SizedBox(height: 20),
+            TextFieldWithPrefix(
+              controller: _createAccountController.emailController,
+              obscureText: false,
+              prefixIcon: Icons.email_outlined,
+              hintText: 'E-mail',
+              keyboardType: TextInputType.emailAddress,
+            ),
+            const SizedBox(height: 20),
+            TextFieldWithPrefixAndSuffix(
+              controller: _createAccountController.passwordController,
+              obscureText: !_createAccountController.passwordVisible,
+              prefixIcon: Icons.key_outlined,
+              suffixIcon: _createAccountController.passwordVisible
+                  ? Icons.visibility
+                  : Icons.visibility_off,
+              hintText: 'Senha',
+              onTapSuffixIcon: (() =>
+                  _createAccountController.tooglePasswordVisibility()),
+            ),
+            const SizedBox(height: 20),
+            TextFieldWithPrefixAndSuffix(
+              controller: _createAccountController.confirmPasswordController,
+              obscureText: !_createAccountController.confirmPasswordVisible,
+              prefixIcon: Icons.key_outlined,
+              suffixIcon: _createAccountController.confirmPasswordVisible
+                  ? Icons.visibility
+                  : Icons.visibility_off,
+              hintText: 'Confirmar senha',
+              onTapSuffixIcon: (() =>
+                  _createAccountController.toogleConfirmPasswordVisibility()),
+            ),
+            const SizedBox(height: 20),
+            ButtonComponent(
+              text: 'Cadastrar',
+              inProgress: _createAccountController.progressAddUser,
+              onPressed: () => _createAccountController.validate(context),
+            ),
+            const SizedBox(height: 10),
+            TextButtonComponent(
+              text: 'Voltar',
+              onPressed: () {},
+            ),
+          ],
+        ),
+      );
+    });
   }
 }
