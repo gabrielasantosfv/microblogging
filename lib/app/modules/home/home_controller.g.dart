@@ -25,10 +25,95 @@ mixin _$HomeController on _HomeController, Store {
     });
   }
 
+  late final _$progressListPublicationsAtom =
+      Atom(name: '_HomeController.progressListPublications', context: context);
+
+  @override
+  bool get progressListPublications {
+    _$progressListPublicationsAtom.reportRead();
+    return super.progressListPublications;
+  }
+
+  @override
+  set progressListPublications(bool value) {
+    _$progressListPublicationsAtom
+        .reportWrite(value, super.progressListPublications, () {
+      super.progressListPublications = value;
+    });
+  }
+
+  late final _$progressListNewsAtom =
+      Atom(name: '_HomeController.progressListNews', context: context);
+
+  @override
+  bool get progressListNews {
+    _$progressListNewsAtom.reportRead();
+    return super.progressListNews;
+  }
+
+  @override
+  set progressListNews(bool value) {
+    _$progressListNewsAtom.reportWrite(value, super.progressListNews, () {
+      super.progressListNews = value;
+    });
+  }
+
+  late final _$listNewsAtom =
+      Atom(name: '_HomeController.listNews', context: context);
+
+  @override
+  List<News> get listNews {
+    _$listNewsAtom.reportRead();
+    return super.listNews;
+  }
+
+  @override
+  set listNews(List<News> value) {
+    _$listNewsAtom.reportWrite(value, super.listNews, () {
+      super.listNews = value;
+    });
+  }
+
+  late final _$updatingListNewsAtom =
+      Atom(name: '_HomeController.updatingListNews', context: context);
+
+  @override
+  bool get updatingListNews {
+    _$updatingListNewsAtom.reportRead();
+    return super.updatingListNews;
+  }
+
+  @override
+  set updatingListNews(bool value) {
+    _$updatingListNewsAtom.reportWrite(value, super.updatingListNews, () {
+      super.updatingListNews = value;
+    });
+  }
+
+  late final _$sortListAsyncAction =
+      AsyncAction('_HomeController.sortList', context: context);
+
+  @override
+  Future<void> sortList() {
+    return _$sortListAsyncAction.run(() => super.sortList());
+  }
+
+  late final _$getListNewsAsyncAction =
+      AsyncAction('_HomeController.getListNews', context: context);
+
+  @override
+  Future<void> getListNews(BuildContext context) {
+    return _$getListNewsAsyncAction.run(() => super.getListNews(context));
+  }
+
   @override
   String toString() {
     return '''
-listPublications: ${listPublications}
+listPublications: ${listPublications},
+progressListPublications: ${progressListPublications},
+progressListNews: ${progressListNews},
+listNews: ${listNews},
+updatingListNews: ${updatingListNews}
     ''';
   }
 }
