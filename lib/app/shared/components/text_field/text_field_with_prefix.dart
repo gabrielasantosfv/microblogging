@@ -4,7 +4,6 @@ import 'decoration.dart';
 
 class TextFieldWithPrefix extends StatelessWidget {
   final TextEditingController controller;
-  //final String? Function(String?)? validator;
   final String hintText;
   final IconData prefixIcon;
   final bool obscureText;
@@ -16,7 +15,6 @@ class TextFieldWithPrefix extends StatelessWidget {
     required this.hintText,
     required this.prefixIcon,
     required this.obscureText,
-    //required this.validator,
     this.keyboardType = TextInputType.text,
   }) : super(key: key);
 
@@ -26,7 +24,6 @@ class TextFieldWithPrefix extends StatelessWidget {
       style: style,
       controller: controller,
       keyboardType: keyboardType,
-      //validator: validator,
       decoration: InputDecoration(
         prefixIcon: icon(prefixIcon),
         errorStyle: errorStyle,
