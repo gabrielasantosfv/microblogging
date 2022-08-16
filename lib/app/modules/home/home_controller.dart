@@ -1,5 +1,10 @@
+import 'dart:math';
+
+import 'package:flutter/material.dart';
+import 'package:microblogging/app/shared/utils/snackbar.dart';
 import 'package:mobx/mobx.dart';
 
+import 'home_service.dart';
 import 'models/post_model.dart';
 
 part 'home_controller.g.dart';
@@ -106,4 +111,59 @@ abstract class _HomeController with Store {
       ),
     ),
   ];
+
+  @observable
+  bool progressListPublications = false;
+
+  @action
+  Future<void> sortList() async {
+    progressListPublications = true;
+    listPublications.sort(
+      (a, b) => b.message!.createdAt.compareTo(a.message!.createdAt),
+    );
+    progressListPublications = false;
+  }
+
+  @observable
+  bool progressListNews = false;
+
+  @observable
+  List<News> listNews = ObservableList();
+
+  @observable
+  bool updatingListNews = false;
+
+  @action
+  Future<void> getListNews(BuildContext context) async {
+    try {
+      if (updatingListNews) {
+        progressListNews = false;
+      } else {
+        progressListNews = true;
+      }
+
+      listNews.clear();
+
+      final result = await HomeService().getListNews(context);
+
+      if (result != null) {
+        result.news.forEach((element) {
+          element.user.verified = true;
+          element.message.numberLikes = Random().nextInt(800) + 100;
+          element.message.numberComments = Random().nextInt(800) + 100;
+          element.message.liked = Random().nextBool();
+          listNews.add(element);
+        });
+
+        listNews.sort(
+          (a, b) => b.message!.createdAt.compareTo(a.message!.createdAt),
+        );
+
+        progressListNews = false;
+      }
+    } catch (e) {
+      showSnackBar(context: context, message: e.toString(), color: Colors.red);
+      progressListNews = false;
+    }
+  }
 }
