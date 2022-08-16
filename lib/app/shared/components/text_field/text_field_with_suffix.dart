@@ -4,7 +4,6 @@ import 'decoration.dart';
 
 class TextFieldWithSuffix extends StatelessWidget {
   final TextEditingController controller;
-  //final String? Function(String?)? validator;
   final String hintText;
   final IconData suffixIcon;
   final bool obscureText;
@@ -17,7 +16,6 @@ class TextFieldWithSuffix extends StatelessWidget {
     required this.hintText,
     required this.suffixIcon,
     required this.obscureText,
-    //required this.validator,
     this.keyboardType = TextInputType.text,
     this.onTapSuffixIcon,
   }) : super(key: key);
@@ -28,7 +26,6 @@ class TextFieldWithSuffix extends StatelessWidget {
       style: style,
       controller: controller,
       keyboardType: keyboardType,
-      //validator: validator,
       decoration: InputDecoration(
         suffixIcon: GestureDetector(
           onTap: onTapSuffixIcon,
