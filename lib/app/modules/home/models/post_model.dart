@@ -48,7 +48,7 @@ class News {
 class User {
   late String name;
   late String profilePicture;
-  late bool verified;
+  late dynamic verified;
 
   User(
       {required this.name,
@@ -74,9 +74,9 @@ class User {
 class Message {
   late String content;
   late String createdAt;
-  late int numberLikes;
-  late int numberComments;
-  late bool liked;
+  late dynamic numberLikes;
+  late dynamic numberComments;
+  late dynamic liked;
 
   Message({
     required this.content,
