@@ -1,25 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:microblogging/app/modules/home/home_controller.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:microblogging/app/shared/components/button/button.dart';
 import 'package:microblogging/app/shared/components/icon/icon_button_with_text.dart';
 import 'package:microblogging/app/shared/components/text/text.dart';
 import 'package:microblogging/app/shared/components/text_field/text_field_area.dart';
 
-class TabNewPostPage extends StatefulWidget {
-  const TabNewPostPage({Key? key}) : super(key: key);
+import 'new_post_controller.dart';
+
+class NewPostPage extends StatefulWidget {
+  const NewPostPage({Key? key}) : super(key: key);
 
   @override
-  State<TabNewPostPage> createState() => _TabNewPostPageState();
+  State<NewPostPage> createState() => _NewPostPageState();
 }
 
-class _TabNewPostPageState extends State<TabNewPostPage> {
-  final _homeController = HomeController();
+class _NewPostPageState extends State<NewPostPage> {
+  final _newPostController = NewPostController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Compartilhar publicação')),
+      appBar: AppBar(
+        title: const Text('Compartilhar publicação'),
+        leading: IconButton(
+          onPressed: () => Modular.to.navigate('/home/'),
+          icon: const Icon(Icons.cancel),
+        ),
+      ),
       body: Observer(builder: (_) {
         return GestureDetector(
           onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
@@ -36,7 +44,7 @@ class _TabNewPostPageState extends State<TabNewPostPage> {
                         radius: 25.0,
                         backgroundColor: Colors.blue[50],
                         backgroundImage: NetworkImage(
-                          _homeController.user.profilePicture,
+                          _newPostController.user.profilePicture,
                         ),
                       ),
                       const SizedBox(width: 10),
@@ -45,7 +53,7 @@ class _TabNewPostPageState extends State<TabNewPostPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             TextComponent(
-                              text: _homeController.user.name,
+                              text: _newPostController.user.name,
                               textAlign: TextAlign.left,
                               fontWeight: FontWeight.bold,
                             ),
@@ -62,15 +70,15 @@ class _TabNewPostPageState extends State<TabNewPostPage> {
                   ),
                   const SizedBox(height: 15),
                   TextFieldAreaComponent(
-                    controller: _homeController.textController,
+                    controller: _newPostController.textController,
                     hintText:
                         "Compartilhe atualizações sobre seus produtos, ideias, curiosidades e muito mais :)",
                   ),
                   const SizedBox(height: 20),
                   ButtonComponent(
                     text: 'Publicar',
-                    inProgress: _homeController.progressAddPost,
-                    onPressed: () => _homeController.addNewPost(context),
+                    inProgress: _newPostController.progressAddPost,
+                    onPressed: () => _newPostController.addNewPost(context),
                   ),
                 ],
               ),
