@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:microblogging/app/shared/utils/snackbar.dart';
 import 'package:microblogging/app/shared/validators/validate_email.dart';
 import 'package:mobx/mobx.dart';
@@ -43,15 +44,12 @@ abstract class _LoginController with Store {
       );
     } else {
       progressLogin = true;
+      FocusScope.of(context).requestFocus(FocusNode());
       Timer(const Duration(milliseconds: 1000), () {
         emailController.text = '';
         passwordController.text = '';
         progressLogin = false;
-        message(
-          context,
-          'Seja bem-vindo(a) ao nosso microblogging!',
-          Colors.green,
-        );
+        Modular.to.navigate('/home/');
       });
     }
   }

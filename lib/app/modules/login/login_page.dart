@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:microblogging/app/shared/components/button/button.dart';
 import 'package:microblogging/app/shared/components/text/text.dart';
 import 'package:microblogging/app/shared/components/text/text_button.dart';
@@ -101,7 +102,7 @@ class _LoginPageState extends State<LoginPage> {
                 TextButtonComponent(
                   text: 'Registre-se',
                   fontWeight: FontWeight.bold,
-                  onPressed: () {},
+                  onPressed: () => Modular.to.navigate('/create_account/'),
                 ),
               ],
             ),
