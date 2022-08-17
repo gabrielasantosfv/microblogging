@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:microblogging/app/shared/components/button/button.dart';
 import 'package:microblogging/app/shared/components/text/text.dart';
 import 'package:microblogging/app/shared/components/text/text_button.dart';
 import 'package:microblogging/app/shared/components/text_field/text_field_with_prefix.dart';
 import 'package:microblogging/app/shared/components/text_field/text_field_with_prefix_and_suffix.dart';
+
+import 'login_controller.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -14,20 +17,16 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
-
-  final loginController = TextEditingController();
-  final passwordController = TextEditingController();
-
-  bool viewPassword = false;
+  final _loginController = LoginController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
         alignment: Alignment.center,
-        padding: const EdgeInsets.all(20),
         color: const Color(0xffb1d5ed),
         child: SingleChildScrollView(
+          padding: const EdgeInsets.all(20),
           physics: const ClampingScrollPhysics(),
           child: Card(
             shape: RoundedRectangleBorder(
@@ -60,56 +59,55 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget form() {
-    return Form(
-      key: _formKey,
-      autovalidateMode: AutovalidateMode.onUserInteraction,
-      child: Column(
-        children: [
-          TextFieldWithPrefix(
-            controller: loginController,
-            //validator: validateEmail,
-            obscureText: false,
-            prefixIcon: Icons.email_outlined,
-            hintText: 'E-mail',
-          ),
-          const SizedBox(height: 20),
-          TextFieldWithPrefixAndSuffix(
-            controller: passwordController,
-            //validator: validateText,
-            obscureText: !viewPassword,
-            prefixIcon: Icons.key_outlined,
-            suffixIcon: viewPassword ? Icons.visibility : Icons.visibility_off,
-            hintText: 'Senha',
-            onTapSuffixIcon: (() {
-              setState(() => viewPassword = !viewPassword);
-            }),
-          ),
-          const SizedBox(height: 5),
-          TextButtonComponent(text: 'Esqueceu a senha?', onPressed: () {}),
-          const SizedBox(height: 20),
-          ButtonComponent(
-            text: 'Entrar',
-            inProgress: false,
-            onPressed: () {
-              if (_formKey.currentState!.validate()) {
-              } else {}
-            },
-          ),
-          const SizedBox(height: 10),
-          Wrap(
-            crossAxisAlignment: WrapCrossAlignment.center,
-            alignment: WrapAlignment.center,
-            children: [
-              const TextComponent(text: 'Não tem cadastro ainda?'),
-              TextButtonComponent(
-                text: 'Registre-se',
-                fontWeight: FontWeight.bold,
-                onPressed: () {},
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
+    return Observer(builder: (_) {
+      return Form(
+        key: _formKey,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        child: Column(
+          children: [
+            TextFieldWithPrefix(
+              controller: _loginController.emailController,
+              obscureText: false,
+              prefixIcon: Icons.email_outlined,
+              hintText: 'E-mail',
+              keyboardType: TextInputType.emailAddress,
+            ),
+            const SizedBox(height: 20),
+            TextFieldWithPrefixAndSuffix(
+              controller: _loginController.passwordController,
+              obscureText: !_loginController.passwordVisible,
+              prefixIcon: Icons.key_outlined,
+              suffixIcon: _loginController.passwordVisible
+                  ? Icons.visibility
+                  : Icons.visibility_off,
+              hintText: 'Senha',
+              onTapSuffixIcon: (() =>
+                  _loginController.tooglePasswordVisibility()),
+            ),
+            const SizedBox(height: 5),
+            TextButtonComponent(text: 'Esqueceu a senha?', onPressed: () {}),
+            const SizedBox(height: 20),
+            ButtonComponent(
+              text: 'Entrar',
+              inProgress: _loginController.progressLogin,
+              onPressed: () => _loginController.login(context),
+            ),
+            const SizedBox(height: 10),
+            Wrap(
+              crossAxisAlignment: WrapCrossAlignment.center,
+              alignment: WrapAlignment.center,
+              children: [
+                const TextComponent(text: 'Não tem cadastro ainda?'),
+                TextButtonComponent(
+                  text: 'Registre-se',
+                  fontWeight: FontWeight.bold,
+                  onPressed: () {},
+                ),
+              ],
+            ),
+          ],
+        ),
+      );
+    });
   }
 }
