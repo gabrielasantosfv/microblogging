@@ -1,8 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:microblogging/app/modules/create_account/user_logged_model.dart';
-import 'package:microblogging/app/modules/home/models/post_model.dart';
 import 'package:microblogging/app/shared/utils/snackbar.dart';
 import 'package:microblogging/app/shared/validators/validate_email.dart';
 import 'package:mobx/mobx.dart';
@@ -48,19 +46,7 @@ abstract class _LoginController with Store {
       Timer(const Duration(milliseconds: 1000), () {
         emailController.text = '';
         passwordController.text = '';
-
-        UserLogged user = UserLogged(
-          user: User(
-            name: emailController.text,
-            profilePicture:
-                'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Circle-icons-profile.svg/2048px-Circle-icons-profile.svg.png',
-            verified: false,
-          ),
-        );
-        user.save();
-
         progressLogin = false;
-
         message(
           context,
           'Seja bem-vindo(a) ao nosso microblogging!',
