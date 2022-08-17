@@ -90,6 +90,53 @@ mixin _$HomeController on _HomeController, Store {
     });
   }
 
+  late final _$textControllerAtom =
+      Atom(name: '_HomeController.textController', context: context);
+
+  @override
+  TextEditingController get textController {
+    _$textControllerAtom.reportRead();
+    return super.textController;
+  }
+
+  @override
+  set textController(TextEditingController value) {
+    _$textControllerAtom.reportWrite(value, super.textController, () {
+      super.textController = value;
+    });
+  }
+
+  late final _$userAtom = Atom(name: '_HomeController.user', context: context);
+
+  @override
+  User get user {
+    _$userAtom.reportRead();
+    return super.user;
+  }
+
+  @override
+  set user(User value) {
+    _$userAtom.reportWrite(value, super.user, () {
+      super.user = value;
+    });
+  }
+
+  late final _$progressAddPostAtom =
+      Atom(name: '_HomeController.progressAddPost', context: context);
+
+  @override
+  bool get progressAddPost {
+    _$progressAddPostAtom.reportRead();
+    return super.progressAddPost;
+  }
+
+  @override
+  set progressAddPost(bool value) {
+    _$progressAddPostAtom.reportWrite(value, super.progressAddPost, () {
+      super.progressAddPost = value;
+    });
+  }
+
   late final _$sortListAsyncAction =
       AsyncAction('_HomeController.sortList', context: context);
 
@@ -106,6 +153,31 @@ mixin _$HomeController on _HomeController, Store {
     return _$getListNewsAsyncAction.run(() => super.getListNews(context));
   }
 
+  late final _$_HomeControllerActionController =
+      ActionController(name: '_HomeController', context: context);
+
+  @override
+  void addNewPost(BuildContext context) {
+    final _$actionInfo = _$_HomeControllerActionController.startAction(
+        name: '_HomeController.addNewPost');
+    try {
+      return super.addNewPost(context);
+    } finally {
+      _$_HomeControllerActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void message(dynamic context, String message, Color color) {
+    final _$actionInfo = _$_HomeControllerActionController.startAction(
+        name: '_HomeController.message');
+    try {
+      return super.message(context, message, color);
+    } finally {
+      _$_HomeControllerActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''
@@ -113,7 +185,10 @@ listPublications: ${listPublications},
 progressListPublications: ${progressListPublications},
 progressListNews: ${progressListNews},
 listNews: ${listNews},
-updatingListNews: ${updatingListNews}
+updatingListNews: ${updatingListNews},
+textController: ${textController},
+user: ${user},
+progressAddPost: ${progressAddPost}
     ''';
   }
 }

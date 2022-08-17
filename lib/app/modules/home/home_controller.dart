@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -28,22 +29,6 @@ abstract class _HomeController with Store {
         liked: true,
         numberComments: 14,
         numberLikes: 48,
-      ),
-    ),
-    News(
-      user: User(
-        name: 'Gabi Santos',
-        profilePicture:
-            'https://media-exp1.licdn.com/dms/image/C4E03AQGvzobOG-_b5A/profile-displayphoto-shrink_800_800/0/1628476768908?e=1666224000&v=beta&t=59Z5uO7eAo0P_IYf8c2I4sGf7YXbUN1B_9gZ8KvBFBo',
-        verified: false,
-      ),
-      message: Message(
-        content:
-            'Lorem ipsum in habitasse pretium gravida accumsan ipsum, quam pharetra urna volutpat quisque venenatis, ipsum lorem viverra adipiscing aptent non.',
-        createdAt: '2022-08-11T18:40:33Z',
-        liked: true,
-        numberComments: 17,
-        numberLikes: 68,
       ),
     ),
     News(
@@ -165,5 +150,61 @@ abstract class _HomeController with Store {
       showSnackBar(context: context, message: e.toString(), color: Colors.red);
       progressListNews = false;
     }
+  }
+
+  @observable
+  TextEditingController textController = TextEditingController();
+
+  @observable
+  User user = User(
+    name: 'Gabriela Santos',
+    profilePicture:
+        'https://media-exp1.licdn.com/dms/image/C4E03AQGvzobOG-_b5A/profile-displayphoto-shrink_800_800/0/1628476768908?e=1666224000&v=beta&t=59Z5uO7eAo0P_IYf8c2I4sGf7YXbUN1B_9gZ8KvBFBo',
+    verified: false,
+  );
+
+  @observable
+  bool progressAddPost = false;
+
+  @action
+  void addNewPost(BuildContext context) {
+    try {
+      if (textController.text.isEmpty) {
+        message(
+            context, 'Informe o que você deseja compartilhar', Colors.orange);
+      } else if (textController.text.length < 5) {
+        message(
+          context,
+          'Sua publicação deve conter no mínimo 5 caracteres',
+          Colors.red,
+        );
+      } else {
+        progressAddPost = true;
+        Timer(const Duration(milliseconds: 1000), () {
+          listPublications.add(
+            News(
+              message: Message(
+                content: textController.text,
+                createdAt: DateTime.now().toString(),
+                liked: false,
+                numberComments: 0,
+                numberLikes: 0,
+              ),
+              user: user,
+            ),
+          );
+          textController.text = '';
+          progressAddPost = false;
+          message(context, 'Post publicado com sucesso!', Colors.green);
+        });
+      }
+    } catch (e) {
+      message(context, e.toString(), Colors.red);
+    }
+  }
+
+  @action
+  void message(context, String message, Color color) {
+    showSnackBar(context: context, message: message, color: color);
   }
 }
