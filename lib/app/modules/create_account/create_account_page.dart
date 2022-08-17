@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:microblogging/app/modules/create_account/create_account_controller.dart';
 import 'package:microblogging/app/shared/components/button/button.dart';
 import 'package:microblogging/app/shared/components/text/text.dart';
@@ -113,7 +114,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
             const SizedBox(height: 10),
             TextButtonComponent(
               text: 'Voltar',
-              onPressed: () {},
+              onPressed: () => Modular.to.navigate('/login/'),
             ),
           ],
         ),

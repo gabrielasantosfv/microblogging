@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:microblogging/app/modules/login/login_page.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:microblogging/app/shared/components/text/text.dart';
 
 class SplashPage extends StatefulWidget {
@@ -19,10 +19,8 @@ class _SplashPageState extends State<SplashPage> {
   navigator() {
     Future.delayed(const Duration(seconds: 3), () {
       setState(() {
-        Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => const LoginPage()),
-            (route) => false);
-      }); 
+        Modular.to.navigate('/login/');
+      });
     });
   }
 

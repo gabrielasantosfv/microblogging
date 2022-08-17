@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:microblogging/app/shared/utils/snackbar.dart';
 import 'package:microblogging/app/shared/validators/validate_email.dart';
 import 'package:mobx/mobx.dart';
@@ -64,7 +65,9 @@ abstract class _CreateAccountController with Store {
       message(context, 'As senhas informadas não coincidem', Colors.red);
     } else {
       progressAddUser = true;
-      Timer(const Duration(milliseconds: 1000), () {
+      FocusScope.of(context).requestFocus(FocusNode());
+
+      Timer(const Duration(milliseconds: 2000), () {
         nameController.text = '';
         emailController.text = '';
         passwordController.text = '';
@@ -75,6 +78,9 @@ abstract class _CreateAccountController with Store {
           'Cadastro realizado com sucesso! Faça login para continuar.',
           Colors.green,
         );
+        Timer(const Duration(milliseconds: 1000), () {
+          Modular.to.navigate('/login/');
+        });
       });
     }
   }

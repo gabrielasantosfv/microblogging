@@ -180,6 +180,7 @@ abstract class _HomeController with Store {
         );
       } else {
         progressAddPost = true;
+        FocusScope.of(context).requestFocus(FocusNode());
         Timer(const Duration(milliseconds: 1000), () {
           listPublications.add(
             News(
