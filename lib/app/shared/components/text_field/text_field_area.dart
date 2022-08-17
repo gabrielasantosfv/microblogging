@@ -20,8 +20,9 @@ class TextFieldAreaComponent extends StatelessWidget {
       style: style,
       controller: controller,
       keyboardType: keyboardType,
-      maxLines: 280,
-      minLines: 15,
+      maxLines: 20,
+      minLines: 8,
+      maxLength: 280,
       decoration: InputDecoration(
         errorStyle: errorStyle,
         hintStyle: hintStyle,
