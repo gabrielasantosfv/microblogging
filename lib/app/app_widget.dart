@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'modules/home/pages/home_page.dart';
+import 'modules/splash/splash_page.dart';
 
 class AppWidget extends StatelessWidget {
   const AppWidget({Key? key}) : super(key: key);
@@ -15,7 +15,7 @@ class AppWidget extends StatelessWidget {
         scaffoldBackgroundColor: Colors.blue[50],
         appBarTheme: const AppBarTheme(color: Color(0xff3b5168)),
       ),
-      home: const HomePage(),
+      home: const SplashPage(),
       debugShowCheckedModeBanner: false,
     );
   }
