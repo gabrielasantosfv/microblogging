@@ -1,12 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:microblogging/app/modules/home/models/post_model.dart';
 
 import 'tab_home.dart';
 import 'tab_latest_news.dart';
-import 'tab_new_post.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  HomePage({Key? key, this.newPost}) : super(key: key);
+  News? newPost;
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -30,10 +31,6 @@ class _HomePageState extends State<HomePage> {
               label: 'Início',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.add_comment_rounded),
-              label: 'Publicação',
-            ),
-            BottomNavigationBarItem(
               icon: Icon(Icons.new_releases_rounded),
               label: 'Novidades',
             ),
@@ -44,20 +41,12 @@ class _HomePageState extends State<HomePage> {
             case 0:
               return CupertinoTabView(
                 builder: (context) {
-                  return const CupertinoPageScaffold(
-                    child: TabHomePage(),
+                  return CupertinoPageScaffold(
+                    child: TabHomePage(newPost: widget.newPost),
                   );
                 },
               );
             case 1:
-              return CupertinoTabView(
-                builder: (context) {
-                  return const CupertinoPageScaffold(
-                    child: TabNewPostPage(),
-                  );
-                },
-              );
-            case 2:
               return CupertinoTabView(
                 builder: (context) {
                   return const CupertinoPageScaffold(
