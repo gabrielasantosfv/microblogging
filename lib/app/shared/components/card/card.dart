@@ -15,11 +15,14 @@ class CardComponent extends StatelessWidget {
     required this.numberLikes,
     required this.numberComments,
     required this.verified,
+    required this.userLogged,
+    required this.popupMenuButton,
   }) : super(key: key);
 
   final String image, name, date, text;
   final int numberLikes, numberComments;
-  final bool verified;
+  final bool verified, userLogged;
+  final Widget popupMenuButton;
 
   @override
   Widget build(BuildContext context) {
@@ -36,47 +39,54 @@ class CardComponent extends StatelessWidget {
                 backgroundImage: NetworkImage(image),
               ),
               const SizedBox(width: 10),
-              Flexible(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Flexible(
-                          child: TextComponent(
-                            text: name,
-                            textAlign: TextAlign.left,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        verified
-                            ? const Padding(
-                                padding: EdgeInsets.only(left: 5),
-                                child: IconComponent(icon: Icons.verified),
-                              )
-                            : Container()
-                      ],
-                    ),
-                    const SizedBox(height: 3),
-                    TextComponent(
-                      text: date,
-                      textAlign: TextAlign.left,
-                      fontSize: 14,
-                    ),
-                    const SizedBox(height: 10),
-                    TextComponent(
-                      text: text,
-                      textAlign: TextAlign.justify,
-                    ),
-                    const SizedBox(height: 15),
-                    actions(),
-                  ],
-                ),
-              ),
+              Flexible(child: body()),
             ],
           ),
         ],
       ),
+    );
+  }
+
+  Widget body() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Flexible(
+              child: Row(
+                children: [
+                  TextComponent(
+                    text: name,
+                    textAlign: TextAlign.left,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  verified
+                      ? const Padding(
+                          padding: EdgeInsets.only(left: 5),
+                          child: IconComponent(icon: Icons.verified),
+                        )
+                      : Container(),
+                ],
+              ),
+            ),
+            userLogged ? popupMenuButton : Container()
+          ],
+        ),
+        const SizedBox(height: 3),
+        TextComponent(
+          text: date,
+          textAlign: TextAlign.left,
+          fontSize: 14,
+        ),
+        const SizedBox(height: 10),
+        TextComponent(
+          text: text,
+          textAlign: TextAlign.justify,
+        ),
+        const SizedBox(height: 15),
+        actions(),
+      ],
     );
   }
 

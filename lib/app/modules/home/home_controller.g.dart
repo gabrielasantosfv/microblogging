@@ -90,6 +90,23 @@ mixin _$HomeController on _HomeController, Store {
     });
   }
 
+  late final _$progressRemovePublicationAtom =
+      Atom(name: '_HomeController.progressRemovePublication', context: context);
+
+  @override
+  bool get progressRemovePublication {
+    _$progressRemovePublicationAtom.reportRead();
+    return super.progressRemovePublication;
+  }
+
+  @override
+  set progressRemovePublication(bool value) {
+    _$progressRemovePublicationAtom
+        .reportWrite(value, super.progressRemovePublication, () {
+      super.progressRemovePublication = value;
+    });
+  }
+
   late final _$sortListAsyncAction =
       AsyncAction('_HomeController.sortList', context: context);
 
@@ -106,6 +123,15 @@ mixin _$HomeController on _HomeController, Store {
     return _$getListNewsAsyncAction.run(() => super.getListNews(context));
   }
 
+  late final _$removePublicationAsyncAction =
+      AsyncAction('_HomeController.removePublication', context: context);
+
+  @override
+  Future<void> removePublication(BuildContext context, News? publication) {
+    return _$removePublicationAsyncAction
+        .run(() => super.removePublication(context, publication));
+  }
+
   @override
   String toString() {
     return '''
@@ -113,7 +139,8 @@ listPublications: ${listPublications},
 progressListPublications: ${progressListPublications},
 progressListNews: ${progressListNews},
 listNews: ${listNews},
-updatingListNews: ${updatingListNews}
+updatingListNews: ${updatingListNews},
+progressRemovePublication: ${progressRemovePublication}
     ''';
   }
 }

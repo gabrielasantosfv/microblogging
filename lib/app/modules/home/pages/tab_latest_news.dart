@@ -75,6 +75,8 @@ class _TabLatestNewsPageState extends State<TabLatestNewsPage> {
           numberComments:
               _homeController.listNews[index].message!.numberComments,
           verified: _homeController.listNews[index].user!.verified,
+          userLogged: false,
+          popupMenuButton: Container(),
         );
       },
     );
