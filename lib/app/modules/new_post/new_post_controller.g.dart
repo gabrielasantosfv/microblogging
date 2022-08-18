@@ -77,11 +77,11 @@ mixin _$NewPostController on _NewPostController, Store {
       ActionController(name: '_NewPostController', context: context);
 
   @override
-  void addNewPost(BuildContext context) {
+  void addOrEditPost(BuildContext context, int? id) {
     final _$actionInfo = _$_NewPostControllerActionController.startAction(
-        name: '_NewPostController.addNewPost');
+        name: '_NewPostController.addOrEditPost');
     try {
-      return super.addNewPost(context);
+      return super.addOrEditPost(context, id);
     } finally {
       _$_NewPostControllerActionController.endAction(_$actionInfo);
     }

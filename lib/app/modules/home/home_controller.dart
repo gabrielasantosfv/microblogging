@@ -16,6 +16,7 @@ abstract class _HomeController with Store {
   @observable
   List<News?> listPublications = [
     News(
+      id: 1,
       user: User(
         name: 'Julia Almeida',
         profilePicture:
@@ -32,6 +33,7 @@ abstract class _HomeController with Store {
       ),
     ),
     News(
+      id: 2,
       user: User(
         name: 'Caio Melo',
         profilePicture:
@@ -48,6 +50,7 @@ abstract class _HomeController with Store {
       ),
     ),
     News(
+      id: 3,
       user: User(
         name: 'Gabriela Santos',
         profilePicture:
@@ -64,6 +67,7 @@ abstract class _HomeController with Store {
       ),
     ),
     News(
+      id: 4,
       user: User(
         name: 'Beatriz Santiago',
         profilePicture:
@@ -80,6 +84,7 @@ abstract class _HomeController with Store {
       ),
     ),
     News(
+      id: 5,
       user: User(
         name: 'Felipe Costa',
         profilePicture:
@@ -96,6 +101,7 @@ abstract class _HomeController with Store {
       ),
     ),
     News(
+      id: 6,
       user: User(
         name: 'Bruno Oliveira',
         profilePicture:
@@ -172,7 +178,8 @@ abstract class _HomeController with Store {
   bool progressRemovePublication = false;
 
   @action
-  Future<void> removePublication(BuildContext context, News? publication) async {
+  Future<void> removePublication(
+      BuildContext context, News? publication) async {
     progressRemovePublication = true;
     listPublications.removeWhere((item) => item == publication);
     progressRemovePublication = false;

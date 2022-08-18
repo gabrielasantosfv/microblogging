@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:microblogging/app/modules/home/models/post_model.dart';
 import 'package:microblogging/app/shared/components/button/button.dart';
 import 'package:microblogging/app/shared/components/icon/icon_button_with_text.dart';
 import 'package:microblogging/app/shared/components/text/text.dart';
@@ -9,7 +10,9 @@ import 'package:microblogging/app/shared/components/text_field/text_field_area.d
 import 'new_post_controller.dart';
 
 class NewPostPage extends StatefulWidget {
-  const NewPostPage({Key? key}) : super(key: key);
+  NewPostPage({Key? key, this.publicationEdit}) : super(key: key);
+
+  News? publicationEdit;
 
   @override
   State<NewPostPage> createState() => _NewPostPageState();
@@ -17,6 +20,15 @@ class NewPostPage extends StatefulWidget {
 
 class _NewPostPageState extends State<NewPostPage> {
   final _newPostController = NewPostController();
+
+  @override
+  void initState() {
+    if (widget.publicationEdit != null) {
+      _newPostController.textController.text =
+          widget.publicationEdit!.message!.content;
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,9 +88,14 @@ class _NewPostPageState extends State<NewPostPage> {
                   ),
                   const SizedBox(height: 20),
                   ButtonComponent(
-                    text: 'Publicar',
+                    text: widget.publicationEdit == null
+                        ? 'Publicar'
+                        : 'Atualizar',
                     inProgress: _newPostController.progressAddPost,
-                    onPressed: () => _newPostController.addNewPost(context),
+                    onPressed: () => _newPostController.addOrEditPost(
+                      context,
+                      widget.publicationEdit?.id,
+                    ),
                   ),
                 ],
               ),

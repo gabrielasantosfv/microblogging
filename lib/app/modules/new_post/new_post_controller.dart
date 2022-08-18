@@ -30,7 +30,7 @@ abstract class _NewPostController with Store {
   News newPost = News();
 
   @action
-  void addNewPost(BuildContext context) {
+  void addOrEditPost(BuildContext context, int? id) {
     try {
       if (textController.text.isEmpty) {
         message(
@@ -46,6 +46,7 @@ abstract class _NewPostController with Store {
         FocusScope.of(context).requestFocus(FocusNode());
         Timer(const Duration(milliseconds: 1000), () {
           newPost = News(
+            id: id,
             message: Message(
               content: textController.text,
               createdAt: DateTime.now().toString(),
@@ -57,7 +58,13 @@ abstract class _NewPostController with Store {
           );
           textController.text = '';
           progressAddPost = false;
-          message(context, 'Post publicado com sucesso!', Colors.green);
+          message(
+            context,
+            id != null
+                ? 'Post editado com sucesso!'
+                : 'Post publicado com sucesso!',
+            Colors.green,
+          );
           Timer(const Duration(milliseconds: 1000), () {
             Modular.to.navigate('/home/', arguments: newPost);
           });

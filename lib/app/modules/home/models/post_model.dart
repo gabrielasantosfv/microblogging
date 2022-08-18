@@ -22,10 +22,11 @@ class PostModel {
 }
 
 class News {
+  int? id;
   User? user;
   Message? message;
 
-  News({this.user, this.message});
+  News({this.id, this.user, this.message});
 
   News.fromJson(Map<String, dynamic> json) {
     user = json['user'] != null ? User.fromJson(json['user']) : null;
