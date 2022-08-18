@@ -49,6 +49,22 @@ abstract class _HomeController with Store {
     ),
     News(
       user: User(
+        name: 'Gabriela Santos',
+        profilePicture:
+            'https://media-exp1.licdn.com/dms/image/C4E03AQGvzobOG-_b5A/profile-displayphoto-shrink_800_800/0/1628476768908?e=1666224000&v=beta&t=59Z5uO7eAo0P_IYf8c2I4sGf7YXbUN1B_9gZ8KvBFBo',
+        verified: false,
+      ),
+      message: Message(
+        content:
+            'Aucibus placerat sollicitudin lorem consequat convallis turpis volutpat tincidunt sodales torquent curabitur ullamcorper, neque vehicula molestie justo morbi tristique vehicula sagittis nullam etiam odio.',
+        createdAt: '2022-08-10T16:10:33Z',
+        liked: false,
+        numberComments: 17,
+        numberLikes: 56,
+      ),
+    ),
+    News(
+      user: User(
         name: 'Beatriz Santiago',
         profilePicture:
             'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWNbhj1cYs6SGg_jCUCLAfrcDsd4t8KHbzHQ&usqp=CAU',
@@ -150,5 +166,16 @@ abstract class _HomeController with Store {
       showSnackBar(context: context, message: e.toString(), color: Colors.red);
       progressListNews = false;
     }
+  }
+
+  @observable
+  bool progressRemovePublication = false;
+
+  @action
+  Future<void> removePublication(BuildContext context, News? publication) async {
+    progressRemovePublication = true;
+    listPublications.removeWhere((item) => item == publication);
+    progressRemovePublication = false;
+    await sortList();
   }
 }

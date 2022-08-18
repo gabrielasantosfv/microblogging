@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:microblogging/app/modules/new_post/new_post_controller.dart';
 import 'package:microblogging/app/shared/components/card/card.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:microblogging/app/shared/components/icon/icon.dart';
 import 'package:microblogging/app/shared/components/text/text.dart';
 import 'package:microblogging/app/shared/utils/date_format.dart';
 
@@ -18,6 +20,7 @@ class TabHomePage extends StatefulWidget {
 
 class _TabHomePageState extends State<TabHomePage> {
   final _homeController = HomeController();
+  final _newPostController = NewPostController();
 
   @override
   void initState() {
@@ -84,7 +87,92 @@ class _TabHomePageState extends State<TabHomePage> {
           numberComments:
               _homeController.listPublications[index]!.message!.numberComments,
           verified: _homeController.listPublications[index]!.user!.verified,
+          userLogged: isUserLogged(
+            _homeController.listPublications[index]!.user!.name,
+          ),
+          popupMenuButton: popMenuButton(
+            _homeController.listPublications[index],
+          ),
         );
+      },
+    );
+  }
+
+  Widget popMenuButton(News? publication) {
+    return Observer(builder: (_) {
+      return PopupMenuButton(
+        child: const IconComponent(
+          icon: Icons.more_vert,
+          size: 25,
+        ),
+        onSelected: (value) {},
+        itemBuilder: (context) => [
+          PopupMenuItem(
+            child: GestureDetector(
+              onTap: () => remove(context, publication),
+              child: const TextComponent(text: "Editar"),
+            ),
+          ),
+          PopupMenuItem(
+            child: GestureDetector(
+              onTap: () => remove(context, publication),
+              child: const TextComponent(text: "Excluir"),
+            ),
+          ),
+        ],
+      );
+    });
+  }
+
+  bool isUserLogged(String name) {
+    if (name == _newPostController.user.name) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  remove(BuildContext context, News? publication) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Observer(builder: (_) {
+          return AlertDialog(
+            title: const TextComponent(
+              text: 'Atenção',
+              textAlign: TextAlign.left,
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+            ),
+            content: const TextComponent(
+              text: 'Deseja realmente excluir a publicação?',
+              textAlign: TextAlign.left,
+            ),
+            actions: <Widget>[
+              !_homeController.progressRemovePublication
+                  ? TextButton(
+                      child: const TextComponent(text: 'Cancelar'),
+                      onPressed: () => Navigator.of(context).pop(false),
+                    )
+                  : Container(),
+              TextButton(
+                child: !_homeController.progressRemovePublication
+                    ? const TextComponent(text: 'Sim')
+                    : const CircularProgressIndicator(color: Color(0xff3b5168)),
+                onPressed: () async {
+                  await _homeController.removePublication(
+                    context,
+                    publication,
+                  );
+                  setState(() {
+                    FocusScope.of(context).requestFocus(FocusNode());
+                    Navigator.of(context).pop(true);
+                  });
+                },
+              )
+            ],
+          );
+        });
       },
     );
   }
