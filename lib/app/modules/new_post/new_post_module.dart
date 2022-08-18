@@ -8,6 +8,9 @@ class NewPostModule extends Module {
 
   @override
   List<ModularRoute> get routes => [
-        ChildRoute("/", child: (context, args) => const NewPostPage()),
+        ChildRoute(
+          "/",
+          child: (context, args) => NewPostPage(publicationEdit: args.data),
+        ),
       ];
 }

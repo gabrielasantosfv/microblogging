@@ -25,6 +25,9 @@ class _TabHomePageState extends State<TabHomePage> {
   @override
   void initState() {
     if (widget.newPost != null) {
+      _homeController.listPublications.removeWhere(
+        (item) => item!.id == widget.newPost!.id,
+      );
       _homeController.listPublications.add(widget.newPost);
     }
     _homeController.sortList();
@@ -109,7 +112,7 @@ class _TabHomePageState extends State<TabHomePage> {
         itemBuilder: (context) => [
           PopupMenuItem(
             child: GestureDetector(
-              onTap: () => remove(context, publication),
+              onTap: () => edit(publication),
               child: const TextComponent(text: "Editar"),
             ),
           ),
@@ -130,6 +133,12 @@ class _TabHomePageState extends State<TabHomePage> {
     } else {
       return false;
     }
+  }
+
+  edit(News? publication) {
+    setState(() {
+      Modular.to.navigate('/new_post/', arguments: publication);
+    });
   }
 
   remove(BuildContext context, News? publication) {
